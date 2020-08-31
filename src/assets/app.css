@@ -1,1 +1,10 @@
-@import '~bootstrap/dist/css/bootstrap.css'
+@import '~bootstrap/dist/css/bootstrap.css';
+
+.ganador {
+    padding: 8px;
+    background-color: green ;
+}
+
+.advertencia {
+    color: red
+}

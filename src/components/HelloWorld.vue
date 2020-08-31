@@ -4,16 +4,23 @@
       <div class="row">
         <div class="col-4">
           <div>
-            <input type="text" v-model="nombreHeroe1" v-on:keyup.enter="buscarHeroe1(nombreHeroe1)" />
+            <input
+              type="text"
+              placeholder="Busca tu heroe favorito"
+              v-model="nombreHeroe1"
+              v-on:keyup.enter="buscarHeroe1(nombreHeroe1)"
+            />
             <button @click="buscarHeroe1(nombreHeroe1)">buscar</button>
-            <ul>
+              <ul>
               <li v-for="item in this.infoHeroe1" v-bind:key="item.id">
                 <a href="javascript:;" @click="buscarIdHeroe1(item.id)">{{item.name}}</a>
               </li>
             </ul>
 
             <div v-if="this.heroe1.name !== '' ">
-              <CardHero :heroe="heroe1"></CardHero>
+              <div v-bind:class="[ganadorHero1 ? 'ganador' : '']">
+                <CardHero :heroe="heroe1"></CardHero>
+              </div>
             </div>
           </div>
         </div>
@@ -23,7 +30,12 @@
         </div>
         <div class="col-4">
           <div>
-            <input type="text" v-model="nombreHeroe2" v-on:keyup.enter="buscarHeroe2(nombreHeroe2)" />
+            <input
+              type="text"
+              placeholder="Busca tu heroe favorito"
+              v-model="nombreHeroe2"
+              v-on:keyup.enter="buscarHeroe2(nombreHeroe2)"
+            />
             <button @click="buscarHeroe2(nombreHeroe2)">buscar</button>
             <ul>
               <li v-for="item in this.infoHeroe2" v-bind:key="item.id">
@@ -31,7 +43,7 @@
               </li>
             </ul>
             <div v-if="this.heroe2.name !== '' ">
-              <div>
+              <div v-bind:class="[ganadorHero2 ? 'ganador' : '']">
                 <CardHero :heroe="heroe2"></CardHero>
               </div>
             </div>
@@ -39,11 +51,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
-          
-
+        <div class="col-12" v-if="this.heroe1.name !== '' && this.heroe2.name  !== '' ">
+          <BotonesFight :heroe2="heroe2" :heroe1="heroe1" v-on:winner="esGanador"></BotonesFight>
         </div>
-
       </div>
     </div>
   </div>
@@ -52,6 +62,7 @@
 <script>
 import axios from "axios";
 import CardHero from "./CardHero.vue";
+import BotonesFight from "./BotonesFight.vue";
 
 export default {
   name: "HelloWorld",
@@ -62,6 +73,8 @@ export default {
 
   data() {
     return {
+      ganadorHero2: false,
+      ganadorHero1: false,
       infoHeroe1: null,
       infoHeroe2: null,
       heroSelected: null,
@@ -87,7 +100,8 @@ export default {
     };
   },
   components: {
-    CardHero
+    CardHero,
+    BotonesFight
   },
 
   methods: {
@@ -110,14 +124,20 @@ export default {
 
     async buscarIdHeroe2(id) {
       this.heroe2 = await this.buscarId(id);
-    },
+     },
 
     async buscarHeroe1(nombre) {
       this.infoHeroe1 = await this.buscar(nombre);
+      if (this.infoHeroe1 == null) {
+        alert("no se encontraron datos");
+      }
     },
 
     async buscarHeroe2(nombre) {
       this.infoHeroe2 = await this.buscar(nombre);
+            if (this.infoHeroe2 == null) {
+            alert("no se encontraron datos");
+      }
     },
 
     async buscarId(id) {
@@ -140,6 +160,42 @@ export default {
           return data;
         });
       return data;
+    },
+
+    esGanador(winner) {
+      this.ganadorHero2 = false;
+      this.ganadorHero1 = false;
+      console.log("esteeeeeee", winner);
+      if (winner == "ganadorHero2" || winner == "ganadorHero1" || winner == 'empate') {
+        if (winner == "ganadorHero2") {
+          this.ganadorHero2 = true;
+        }
+
+        if (winner == "ganadorHero1") {
+          this.ganadorHero1 = true;
+        }
+
+        if (winner == "empate"){
+           this.ganadorHero1 = true;
+           this.ganadorHero2 = true;
+           alert("Aqui hay un empate..")
+        }
+
+      }
+      if (winner == "ganadorSpeedHero2" || winner == "ganadorSpeedHero1" || winner == "empateSpedd") {
+        if (winner == "ganadorSpeedHero2") {
+          this.ganadorHero2 = true;
+        }
+        if (winner == "ganadorSpeedHero1") {
+          this.ganadorHero1 = true;
+        }
+
+          if (winner == "empateSpedd"){
+           this.ganadorHero1 = true;
+           this.ganadorHero2 = true;
+           alert("Aqui hay un empate en velocidad..")
+        }
+      }
     }
   }
 };
