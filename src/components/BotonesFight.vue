@@ -1,7 +1,7 @@
 <template>
   <div class="mt-5">
-      <button type="button" class="btn btn-primary" @click="runHero()">RUN</button>
-      <button type="button" class="btn btn-secondary" @click="fightHero()">FIGHT</button>
+      <button type="button" class="btn btn-primary spaceBtn" @click="runHero()">RUN</button>
+      <button type="button" class="btn btn-secondary spaceBtn" @click="fightHero()">FIGHT</button>
       <div>
       </div>
   </div>
@@ -36,7 +36,6 @@ export default {
       } else {
         this.ganadorFight = 'empate'
         this.$emit('winner', this.ganadorFight);
-        console.log('es un empate');
       }
       
     },
@@ -53,6 +52,11 @@ export default {
         this.ganadorSpeed = 'empateSpedd';
         this.$emit('winner', this.ganadorSpeed)
       }
+      if (this.heroe1.velocidad == null || this.heroe2.velocidad == null ) {
+        alert("La velocidad de uno de los competidores es nula, intenta con otro")
+        this.$emit('winner', null)
+      }
+
 
     }
    

@@ -8,3 +8,20 @@
 .advertencia {
     color: red
 }
+
+.text-style {
+    text-align: center;
+    color: #42b983;
+
+}
+
+.spaceBtn {
+    margin: 0px 7px 50px;;
+}
+
+.btn {
+    color: #42b983;
+    background: transparent;
+    border: 1px solid #42b983;
+    border-radius: 2px;
+}

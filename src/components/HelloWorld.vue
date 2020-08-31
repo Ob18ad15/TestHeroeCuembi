@@ -6,18 +6,19 @@
           <div>
             <input
               type="text"
+              class="btn"
               placeholder="Busca tu heroe favorito"
               v-model="nombreHeroe1"
               v-on:keyup.enter="buscarHeroe1(nombreHeroe1)"
             />
-            <button @click="buscarHeroe1(nombreHeroe1)">buscar</button>
-              <ul>
+            <button class="btn" @click="buscarHeroe1(nombreHeroe1)">buscar</button>
+            <ul>
               <li v-for="item in this.infoHeroe1" v-bind:key="item.id">
                 <a href="javascript:;" @click="buscarIdHeroe1(item.id)">{{item.name}}</a>
               </li>
             </ul>
 
-            <div v-if="this.heroe1.name !== '' ">
+            <div class="col-md-12" v-if="this.heroe1.name !== '' ">
               <div v-bind:class="[ganadorHero1 ? 'ganador' : '']">
                 <CardHero :heroe="heroe1"></CardHero>
               </div>
@@ -32,17 +33,18 @@
           <div>
             <input
               type="text"
+              class="btn"
               placeholder="Busca tu heroe favorito"
               v-model="nombreHeroe2"
               v-on:keyup.enter="buscarHeroe2(nombreHeroe2)"
             />
-            <button @click="buscarHeroe2(nombreHeroe2)">buscar</button>
+            <button class="btn" @click="buscarHeroe2(nombreHeroe2)">buscar</button>
             <ul>
               <li v-for="item in this.infoHeroe2" v-bind:key="item.id">
                 <a href="javascript:;" @click="buscarIdHeroe2(item.id)">{{item.name}}</a>
               </li>
             </ul>
-            <div v-if="this.heroe2.name !== '' ">
+            <div class="col-md-12" v-if="this.heroe2.name !== '' ">
               <div v-bind:class="[ganadorHero2 ? 'ganador' : '']">
                 <CardHero :heroe="heroe2"></CardHero>
               </div>
@@ -120,24 +122,32 @@ export default {
 
     async buscarIdHeroe1(id) {
       this.heroe1 = await this.buscarId(id);
+      this.ganadorHero2 = false;
+      this.ganadorHero1= false;
     },
 
     async buscarIdHeroe2(id) {
       this.heroe2 = await this.buscarId(id);
-     },
+      this.ganadorHero2 = false;
+      this.ganadorHero1= false;
+    },
 
     async buscarHeroe1(nombre) {
       this.infoHeroe1 = await this.buscar(nombre);
       if (this.infoHeroe1 == null) {
         alert("no se encontraron datos");
       }
+      this.ganadorHero2 = false;
+      this.ganadorHero1= false;
     },
 
     async buscarHeroe2(nombre) {
       this.infoHeroe2 = await this.buscar(nombre);
-            if (this.infoHeroe2 == null) {
-            alert("no se encontraron datos");
+      if (this.infoHeroe2 == null) {
+        alert("no se encontraron datos");
       }
+      this.ganadorHero2 = false;
+      this.ganadorHero1= false;
     },
 
     async buscarId(id) {
@@ -165,8 +175,15 @@ export default {
     esGanador(winner) {
       this.ganadorHero2 = false;
       this.ganadorHero1 = false;
-      console.log("esteeeeeee", winner);
-      if (winner == "ganadorHero2" || winner == "ganadorHero1" || winner == 'empate') {
+      if (winner == null){
+        alert("La velocidad de uno de los competidores es nula, intenta con otro");
+      }
+
+      if (
+        winner == "ganadorHero2" ||
+        winner == "ganadorHero1" ||
+        winner == "empate"
+      ) {
         if (winner == "ganadorHero2") {
           this.ganadorHero2 = true;
         }
@@ -175,14 +192,17 @@ export default {
           this.ganadorHero1 = true;
         }
 
-        if (winner == "empate"){
-           this.ganadorHero1 = true;
-           this.ganadorHero2 = true;
-           alert("Aqui hay un empate..")
+        if (winner == "empate") {
+          this.ganadorHero1 = true;
+          this.ganadorHero2 = true;
+          alert("Aqui hay un empate..");
         }
-
       }
-      if (winner == "ganadorSpeedHero2" || winner == "ganadorSpeedHero1" || winner == "empateSpedd") {
+      if (
+        winner == "ganadorSpeedHero2" ||
+        winner == "ganadorSpeedHero1" ||
+        winner == "empateSpedd"
+      ) {
         if (winner == "ganadorSpeedHero2") {
           this.ganadorHero2 = true;
         }
@@ -190,10 +210,10 @@ export default {
           this.ganadorHero1 = true;
         }
 
-          if (winner == "empateSpedd"){
-           this.ganadorHero1 = true;
-           this.ganadorHero2 = true;
-           alert("Aqui hay un empate en velocidad..")
+        if (winner == "empateSpedd") {
+          this.ganadorHero1 = true;
+          this.ganadorHero2 = true;
+          alert("Aqui hay un empate en velocidad..");
         }
       }
     }

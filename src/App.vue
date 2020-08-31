@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-
+    <headerComponent/>
     <HelloWorld/>
 
   </div>
@@ -8,12 +8,14 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import headerComponent from './components/headerComponent.vue'
 
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
+    headerComponent,
   }
 }
 </script>
