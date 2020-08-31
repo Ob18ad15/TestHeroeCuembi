@@ -12,13 +12,13 @@
               v-on:keyup.enter="buscarHeroe1(nombreHeroe1)"
             />
             <button class="btn" @click="buscarHeroe1(nombreHeroe1)">buscar</button>
-            <ul>
+            <ul v-if="!this.heroeSelected1">
               <li v-for="item in this.infoHeroe1" v-bind:key="item.id">
                 <a href="javascript:;" @click="buscarIdHeroe1(item.id)">{{item.name}}</a>
               </li>
             </ul>
 
-            <div class="col-md-12" v-if="this.heroe1.name !== '' ">
+            <div class="col-md-12 mt-5" v-if="this.heroe1.name !== '' ">
               <div v-bind:class="[ganadorHero1 ? 'ganador' : '']">
                 <CardHero :heroe="heroe1"></CardHero>
               </div>
@@ -39,12 +39,12 @@
               v-on:keyup.enter="buscarHeroe2(nombreHeroe2)"
             />
             <button class="btn" @click="buscarHeroe2(nombreHeroe2)">buscar</button>
-            <ul>
+            <ul v-if="!this.heroeSelected">
               <li v-for="item in this.infoHeroe2" v-bind:key="item.id">
                 <a href="javascript:;" @click="buscarIdHeroe2(item.id)">{{item.name}}</a>
               </li>
             </ul>
-            <div class="col-md-12" v-if="this.heroe2.name !== '' ">
+            <div class="col-md-12 mt-5" v-if="this.heroe2.name !== '' ">
               <div v-bind:class="[ganadorHero2 ? 'ganador' : '']">
                 <CardHero :heroe="heroe2"></CardHero>
               </div>
@@ -75,6 +75,8 @@ export default {
 
   data() {
     return {
+      heroeSelected: true,
+      heroeSelected1: true,
       ganadorHero2: false,
       ganadorHero1: false,
       infoHeroe1: null,
@@ -124,12 +126,14 @@ export default {
       this.heroe1 = await this.buscarId(id);
       this.ganadorHero2 = false;
       this.ganadorHero1= false;
+      this.heroeSelected1 = true;
     },
 
     async buscarIdHeroe2(id) {
       this.heroe2 = await this.buscarId(id);
       this.ganadorHero2 = false;
       this.ganadorHero1= false;
+      this.heroeSelected = true;
     },
 
     async buscarHeroe1(nombre) {
@@ -139,6 +143,7 @@ export default {
       }
       this.ganadorHero2 = false;
       this.ganadorHero1= false;
+      this.heroeSelected1 = false;
     },
 
     async buscarHeroe2(nombre) {
@@ -148,6 +153,7 @@ export default {
       }
       this.ganadorHero2 = false;
       this.ganadorHero1= false;
+      this.heroeSelected = false;
     },
 
     async buscarId(id) {
@@ -231,7 +237,7 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
+  display: block;
   margin: 0 10px;
 }
 a {
